@@ -1,0 +1,19 @@
+services:
+  nginx-app:
+    build:
+      context: .
+      args:
+        - PORT
+    command: sh -c "yarn start:prod"
+    ports:
+      - '${PORT}:${PORT}'
+    environment:
+      - PORT=${PORT}
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./html/:/usr/share/nginx/html
